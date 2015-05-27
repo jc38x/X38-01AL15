@@ -1,5 +1,5 @@
 %**************************************************************************
-% conn_db_cache
+% conn_db_cache.m
 % function [ ...
 % out_conn   ...
 % ] = conn_db_cache()
