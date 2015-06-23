@@ -61,7 +61,7 @@ global STATE
 timeout  = CONFIG.HTTPTIMEOUT;
 retries  = CONFIG.HTTPRETRIES;
 timing   = CONFIG.GOOGLEDISTTIMING;
-keyindex = STATE.DISTKEYINDEX;
+keyindex = STATE.GOOGLEDISTKEYINDEX;
 
 keyring = apikeyring();
 getdistance = true;
@@ -107,7 +107,7 @@ while (getdistance)
     end
 end
 
-STATE.DISTKEYINDEX = keyindex;
+STATE.GOOGLEDISTKEYINDEX = keyindex;
 
 szr = size(response.rows, 1);
 out_row = -1 * ones(1, in_elem);

@@ -25,7 +25,7 @@ retries  = CONFIG.HTTPRETRIES;
 timeout  = CONFIG.HTTPTIMEOUT;
 pret     = CONFIG.GOOGLEPLACESRETRIES;
 ptiming  = CONFIG.GOOGLEPLACESTIMING;
-keyindex = STATE.PLACESKEYINDEX;
+keyindex = STATE.GOOGLEPLACESKEYINDEX;
 
 N = size(in_coord, 1);
 if (N ~= size(in_r, 1)), error('Incompatible number of rows'); end
@@ -113,7 +113,7 @@ while (getplaces)
 end
 end
 
-STATE.PLACESKEYINDEX = keyindex;
+STATE.GOOGLEPLACESKEYINDEX = keyindex;
 
 if (~isempty(out_places))
     [~, ia, ~] = unique(out_places(:, 1));

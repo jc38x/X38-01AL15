@@ -17,7 +17,7 @@ out_table         ...
 
 global CONFIG
 global DISTCACHE
-global DISTCACHEINFO
+global STATE
 
 fmt             = CONFIG.LATLONFMT;
 dbdistmax       = CONFIG.CACHEDBDISTPREFMAXROWS;
@@ -25,8 +25,8 @@ vendor          = CONFIG.DISTVENDOR;
 googledisttable = CONFIG.CACHEDBGOOGLEDISTTABLE;
 osrmdisttable   = CONFIG.CACHEDBOSRMDISTTABLE;
 maxelem         = CONFIG.DISTMAXELEM;
-cinfovendor     = DISTCACHEINFO.VENDOR;
-cinfosize       = DISTCACHEINFO.SIZE;
+cinfovendor     = STATE.DISTCACHEVENDOR;
+cinfosize       = STATE.DISTCACHESIZE;
 
 switch (lower(vendor))
 case 'google', dbdisttable         = googledisttable;
@@ -42,7 +42,8 @@ dtor = onCleanup(@()close(conn));
 
 if (~strcmpi(cinfovendor, vendor) || cinfosize ~= dbdistmax)
     DISTCACHE = [];
-    DISTCACHEINFO = {};
+    STATE.DISTCACHEVENDOR = [];
+    STATE.DISTCACHESIZE = [];
     warning('Prefetch buffer flush');
 end
 
@@ -61,8 +62,8 @@ if (isempty(DISTCACHE))
     end
 
     distdata = [];
-    DISTCACHEINFO.VENDOR = vendor;
-    DISTCACHEINFO.SIZE = dbdistmax;
+    STATE.DISTCACHEVENDOR = vendor;
+    STATE.DISTCACHESIZE = dbdistmax;
 end
 
 % Generar cadenas lat,lon para los puntos origen y puntos destino ---------

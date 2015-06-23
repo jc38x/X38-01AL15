@@ -120,7 +120,7 @@ global STATE
 retries  = CONFIG.HTTPRETRIES;
 timeout  = CONFIG.HTTPTIMEOUT;
 maxkeys  = CONFIG.GOOGLEMAPMAXATTEMPTS;
-keyindex = STATE.MAPKEYINDEX;
+keyindex = STATE.GOOGLEMAPKEYINDEX;
 
 hold on
 
@@ -388,7 +388,7 @@ error(sprintf(['Unable to download map form Google Servers.\n' ...
 %return
 end
 
-STATE.MAPKEYINDEX = keyindex;
+STATE.GOOGLEMAPKEYINDEX = keyindex;
 
 [M, Mcolor] = imread(filename);
 M = cast(M,'double');
