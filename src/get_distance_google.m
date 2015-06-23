@@ -63,7 +63,7 @@ retries  = CONFIG.HTTPRETRIES;
 timing   = CONFIG.GOOGLEDISTTIMING;
 keyindex = STATE.GOOGLEDISTKEYINDEX;
 
-keyring = apikeyring();
+keyring = apikeyring_google();
 getdistance = true;
 waitforkey = true;
 unkerrtries = retries;

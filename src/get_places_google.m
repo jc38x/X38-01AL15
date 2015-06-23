@@ -37,7 +37,7 @@ for k = tc(2:end), types = [types '|' k{1}]; end
 http = 'https';
 preamble = '://maps.googleapis.com/maps/api/place/nearbysearch/json?';
 types = ['types=' types];
-keyring = apikeyring();
+keyring = apikeyring_google();
 out_places = [];
 
 for n = 1:N

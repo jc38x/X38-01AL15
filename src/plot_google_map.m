@@ -349,7 +349,7 @@ else
     convertNeeded = 1;
 end
 sensor = '&sensor=false';
-keyring = apikeyring();
+keyring = apikeyring_google();
 attemptsleft = retries;
 urlbase = [preamble location zoomStr sizeStr maptypeStr format markers labelsStr languageStr sensor];
 
