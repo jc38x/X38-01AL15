@@ -1,0 +1,26 @@
+%**************************************************************************
+% get_nearest.m
+% function [ ...
+% out_near   ...
+% ] = get_nearest( ...
+%     in_coord     ...
+%     )
+%**************************************************************************
+
+function [ ...
+out_near   ...
+] = get_nearest( ...
+    in_coord     ...
+    )
+
+global CONFIG
+
+vendor = CONFIG.NEARVENDOR;
+
+switch (lower(vendor))
+case 'google', out_near = get_nearest_google(in_coord);
+case 'osrm',   out_near = get_nearest_osrm(in_coord);
+otherwise,     error(['Unknown vendor: ' vendor]);
+end
+end
+%**************************************************************************
