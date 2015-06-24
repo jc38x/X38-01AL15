@@ -54,9 +54,11 @@ data = data.Data;
 if (numel(data) < 4), continue; end
 
 [lon, lat] = meters2latlon(cell2mat(data(:, 3)), cell2mat(data(:, 4)));
+
+coord = [lat, lon];
 lon = num2cell(lon);
 lat = num2cell(lat);
-id  = [];
+id = [];
 
 for k = 1:size(lat, 1)
     id = [id; {[num2str(lat{k}, fmt) ',' num2str(lon{k}, fmt)]}]; 
@@ -66,7 +68,7 @@ tstr = regexprep(data(:, 2), '\s*;\s*', '|');
 tstr = regexprep(tstr,       '\s*$',    '|', 'emptymatch');
 tstr = regexprep(tstr,       '^\s*',    '|', 'emptymatch');
 
-fill = regexprep(data(:, 1), '.*', '-', 'emptymatch');
+fill = get_nearest(coord);
 
 data = [id, data(:, 1), tstr, fill, lat, lon];
 out_places = [out_places; data];
