@@ -20,7 +20,7 @@ out_sel                    ...
 d = 'mm/dd/yyyy';
 f = datenum(in_from, d);
 q = datenum(in_to, d);
-out_sel = true(size(in_demand));
+out_sel = false(size(in_demand));
 
 for k = 1:size(in_demand, 1)
     try        
