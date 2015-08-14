@@ -55,7 +55,16 @@ end
 
 xlabel(lonstr);
 ylabel(latstr);
-legend([hb, hd, s1, s2], legendcell);
+
+if (~isempty(s1) && ~isempty(s2))
+    legend([hb, hd, s1, s2], legendcell);
+elseif (~isempty(s1))
+    legend([hb, hd, s1    ], legendcell([1 2 3]));
+elseif (~isempty(s2))
+    legend([hb, hd,     s2], legendcell([1 2 4]));
+else
+    legend([hb, hd        ], legendcell([1 2]));
+end
 
 dcm_obj = datacursormode(out_fig);
 set(dcm_obj, 'UpdateFcn', @point_info);
