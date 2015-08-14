@@ -37,19 +37,22 @@ c1 = in_costos <= in_r1;    % cobertura en r1
 c2 = in_costos <= in_r2;    % cobertura en r2    
 a  = in_a .* sum(in_pesos); % porcentaje alfa de la demanda
 p  = size(in_mt, 2);        % numero de amulancias
+pj = in_pj(:);              % maximo numero de ambulancias por base
+w  = in_pesos(:).';         % pesos de cada punto de demanda
+mt = in_mt(:).';            % penalizacion de reubicacion de ambulancias
 
 % Funcion objetivo: maximizar demanda cubierta 2 veces con penalizacion ---
 f = [
-	  in_mt(:).', ... % yjl             
+	          mt, ... % yjl             
     zeros(1, dd), ... % x1i (no importa)
-	   -in_pesos  ... % x2i             
+	          -w  ... % x2i             
 ];
 
 % Restricciones (desigualdades) -------------------------------------------
 %   yjl                  x1i            x2i
 A = [
 	  repmat(-c2.', 1, p), zeros(dd, dd), zeros(dd, dd); % <= -1
-        zeros( 1, db * p),     -in_pesos, zeros( 1, dd); % <= -a
+        zeros( 1, db * p),            -w, zeros( 1, dd); % <= -a
       repmat(-c1.', 1, p),   eye(dd, dd),   eye(dd, dd); % <=  0
         zeros(dd, db * p),  -eye(dd, dd),   eye(dd, dd); % <=  0
     repmat(eye(db), 1, p), zeros(db, dd), zeros(db, dd); % <=  pj
@@ -60,13 +63,13 @@ b = [
                   -a; % <= -a
         zeros(dd, 1); % <=  0
         zeros(dd, 1); % <=  0
-            in_pj(:); % <= pj
+                  pj; % <= pj
 ];
 
 % Restricciones (igualdades) ----------------------------------------------
 %      yjl            x1i           x2i
 Aeq = [repelem(eye(p), 1, db), zeros(p, dd), zeros(p, dd)]; % = 1
-beq =  ones(p, 1); % = 1
+beq =  ones(p, 1);                                          % = 1
 
 % Cotas -------------------------------------------------------------------
 %     yjl           x1i           x2i
@@ -76,15 +79,15 @@ ub = [ ones(1, db * p),  ones(1, dd),  ones(1, dd)];
 % Aplicar LP --------------------------------------------------------------
 if (in_entero) % ILP
     [
-    p_grupo,   ...
-    out_total, ...
-    p_exit     ...
+    p_grupo, ...
+    p_total, ...
+    p_exit   ...
 	] = intlinprog(f, 1:numel(f), A, b, Aeq, beq, lb, ub);
 else          % LP
 	[
-	p_grupo,   ...
-	out_total, ...
-	p_exit     ...
+	p_grupo, ...
+	p_total, ...
+	p_exit   ...
 	] =    linprog(f,             A, b, Aeq, beq, lb, ub);
 end
 
@@ -96,7 +99,7 @@ if (p_exit < 1)
 else
     out_ok    =  true;
     out_bases =  reshape(p_grupo(1:(db * p)), db, p);
-    out_total = -out_total;
+    out_total = -p_total;
 end
 end
 %**************************************************************************
